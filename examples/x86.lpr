@@ -18,7 +18,9 @@ program x86;
 
 uses
   SysUtils,
-  Unicorn_dyn, UnicornConst, X86Const;
+  Unicorn_dyn,
+  UnicornConst,
+  X86Const;
 
 const
   // code to be emulated .
@@ -238,7 +240,7 @@ begin
 
   WriteLn(Format('>>> ECX = 0x%x', [r_ecx]));
   WriteLn(Format('>>> EDX = 0x%x', [r_edx]));
-  WriteLn(Format('>>> XMM0 = 0x%s%s', [hexStr(r_xmm0[1],16),hexStr(r_xmm0[0],16)]));
+  WriteLn(Format('>>> XMM0 = 0x%s%s', [IntToHex(r_xmm0[1],16),IntToHex(r_xmm0[0],16)]));
 
   // read from memory
   err := uc_mem_read_(uc, ADDRESS, @tmp, SizeOf(tmp));
@@ -289,7 +291,7 @@ begin
   if err <> UC_ERR_OK then
   begin
     WriteLn(Format('Failed on uc_mem_map_ptr() with error returned: %u - %s', [err,uc_strerror(err)]));
-    Freememory(mem,2 * 1024 * 1024);
+    FreeMem(mem,2 * 1024 * 1024);
     uc_close(uc);
     Exit;
   end;
@@ -298,7 +300,7 @@ begin
   if CompareMem(mem,@X86_CODE32,SizeOf(X86_CODE32)-1) <> true then
   begin
     Writeln('Failed to write emulation code to memory, quit!');
-    Freememory(mem,2 * 1024 * 1024);
+    Freemem(mem,2 * 1024 * 1024);
     uc_close(uc);
     exit;
   end;
@@ -326,7 +328,7 @@ begin
 
   WriteLn(Format('>>> ECX = 0x%x', [r_ecx]));
   WriteLn(Format('>>> EDX = 0x%x', [r_edx]));
-  WriteLn(Format('>>> XMM0 = 0x%s%s', [hexStr(r_xmm0[1],16),hexStr(r_xmm0[0],16)]));
+  WriteLn(Format('>>> XMM0 = 0x%s%s', [IntToHex(r_xmm0[1],16),IntToHex(r_xmm0[0],16)]));
 
   // read from memory
   err := uc_mem_read_(uc, ADDRESS, @tmp, SizeOf(tmp));
@@ -336,7 +338,7 @@ begin
     WriteLn(Format('>>> Failed to read 4 bytes from [0x%x], err = %u: %s', [ADDRESS, err, uc_strerror(err)]));
   end;
 
-  Freememory(mem,2 * 1024 * 1024);
+  Freemem(mem,2 * 1024 * 1024);
   uc_close(uc);
 end;
 
