@@ -1,6 +1,6 @@
 {
-  Pascal bindings for the UnicornEngine Emulator Engine \
-  Tested On Mac - Win - Linux >> with FreePascal v3.0.4 .
+  FreePascal/Delphi bindings for the UnicornEngine Emulator Engine \
+  Tested On Mac - Win - Linux >> with FreePascal v3.0.4 & Delphi Berlin 10.2 .
 
   Copyright(c) 2018 Coldzer0 <Coldzer0 [at] protonmail.ch> .
 

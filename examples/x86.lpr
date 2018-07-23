@@ -1,5 +1,5 @@
 {
-  FreePascal bindings for the UnicornEngine Emulator Engine .
+  FreePascal/Delphi bindings for the UnicornEngine Emulator Engine .
 
   Copyright(c) 2018 Coldzer0 .
 

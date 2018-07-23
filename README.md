@@ -1,6 +1,6 @@
 # unicorn-engine-pascal
 
-Pascal language binding for the [Unicorn emulator](http://www.unicorn-engine.org/)
+Pascal/Delphi language binding for the [Unicorn emulator](http://www.unicorn-engine.org/)
 ([GitHub](https://github.com/unicorn-engine/unicorn)).
 
 *Unicorn* is a lightweight multi-platform, multi-architecture CPU emulator framework
@@ -12,9 +12,14 @@ based on [QEMU](http://www.qemu.org/).
 
 ## Compatibility
 
-#### Mac OS ,Windows, Linux .
-### Compiler : Free Pascal v3
+## Compilers : 
 
+#### Free Pascal >= v3 
+  - `Mac OS` 
+  - `Windows` 
+  - `Linux`
+#### Delphi
+  - `Windows`
 ## Features
 
 * Same API as the C core 
@@ -37,6 +42,12 @@ based on [QEMU](http://www.qemu.org/).
 * `X86` Emulate 16, 32, 64 Bit x86
 
 
-## Version 
+## Version History
+* `1.1`
+    * Add Delphi Compatibility [ Windows ]
 * `1.0`
     * this is the first version it has all APIs of UNICORN v1.0.1
+
+## TODO
+  - Add more Examples
+  - Add <b>Mac , Linux</b> Support for Delphi
