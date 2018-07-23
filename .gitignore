@@ -1,2 +1,7 @@
 
 *.bak
+*.o
+*.ppu
+*.compiled
+*.dSYM
+examples/x86

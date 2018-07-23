@@ -11,13 +11,18 @@ unit Unicorn_dyn;
 
 {$IFDEF FPC}
     {$MODE Delphi}
+    {$PackRecords C}
 {$ENDIF}
 
-{$PackRecords C}
-
 interface
-  uses
-    dynlibs,Crt;
+
+uses
+  {$IFDEF FPC}dynlibs,Crt{$ELSE}
+    {$ifdef mswindows}
+       windows,sysutils
+    {$ENDIF}
+  {$ENDIF};
+
 
 const
 {$IFDEF Darwin}
@@ -26,7 +31,7 @@ const
 {$ifdef Linux}
     UNICORN_LIB = './libunicorn.so';
 {$endif}
-{$ifdef windows}
+{$ifdef mswindows}
     UNICORN_LIB = './unicorn.dll';
 {$endif}
 
@@ -38,6 +43,10 @@ type
   uc_mode       = Cardinal;
   uc_err        = Cardinal;
   uc_query_type = Cardinal;
+
+  {$IFNDEF FPC} // Delphi Support .
+   PUInt32 = ^UInt32;
+  {$ENDIF}
 
 type
    {
@@ -540,17 +549,19 @@ begin
 end;
 
 var
-  UC_Handle : dynlibs.HModule;
+  UC_Handle : {$IFDEF FPC}dynlibs.{$ENDIF}HModule;
 
-function dyn_loadfunc(name : string) : Pointer;
+function dyn_loadfunc(name : {$IFDEF FPC}string{$ELSE}PChar{$ENDIF}) : Pointer;
 begin
-  Result := dynlibs.GetProcAddress(UC_Handle,name);
+  Result := {$IFDEF FPC}dynlibs.{$ENDIF}GetProcAddress(UC_Handle,name);
 end;
 
 function loadUC(): Boolean;
+var
+  LastError : String;
 begin
   Result := false;
-  UC_Handle := dynlibs.LoadLibrary(UNICORN_LIB);
+  UC_Handle := {$IFDEF FPC}dynlibs.{$ENDIF}LoadLibrary(UNICORN_LIB);
   if UC_Handle <> 0 then
   begin
     @uc_version := dyn_loadfunc('uc_version');
@@ -635,16 +646,22 @@ begin
   end
   else
   begin
-    TextColor(LightRed);
-    WriteLn('error while loading unicorn library : ',GetLoadErrorStr,#10);
-    NormVideo;
+    {$IFDEF FPC}TextColor(LightRed);{$ENDIF}
+    LastError := {$IFDEF FPC}GetLoadErrorStr;{$ELSE}
+      {$ifdef mswindows}
+       SysErrorMessage(GetLastError,UC_Handle);
+       SetLastError(0);
+      {$ENDIF}
+    {$ENDIF}
+    WriteLn('error while loading unicorn library : ',LastError,#10);
+    {$IFDEF FPC}NormVideo;{$ENDIF}
   end;
 end;
 
 procedure FreeUC();
 begin
   if UC_Handle <> 0 then
-     dynlibs.FreeLibrary(UC_Handle);
+     {$IFDEF FPC}dynlibs.{$ENDIF}FreeLibrary(UC_Handle);
 end;
 
 initialization
