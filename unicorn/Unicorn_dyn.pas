@@ -124,7 +124,7 @@ type
     rEnd   : UInt64; // end address of the region (inclusive)
     rPerms : UInt32; // memory permissions of the region
   end;
-  uc_mem_regionArray  = array[0..$effffff] of uc_mem_region;
+  uc_mem_regionArray  = array[0..(MaxInt div SizeOf(uc_mem_region))-1] of uc_mem_region;
   Puc_mem_regionArray = ^uc_mem_regionArray;
 
 
